@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <declare-styleable name="YxTitleView">
+        <attr name="title_text" format="string" localization="suggested" />
+        <attr name="title_btn_right_text" format="string" localization="suggested" />
+        <attr name="title_btn_right_text_2" format="string" localization="suggested" />
+        <attr name="title_btn_width" format="dimension" />
+        <attr name="title_btn_height" format="dimension" />
+        <attr name="title_btn_bg" format="reference" />
+        <attr name="title_btn_text_padding" format="dimension" />
+        <attr name="title_show_left_btn" format="boolean" />
+        <attr name="title_btn_left_text" format="string" localization="suggested" />
+        <attr name="title_show_right_btn" format="boolean" />
+        <attr name="title_show_right_btn_2" format="boolean" />
+        <attr name="title_btn_right_icon" format="reference" />
+        <attr name="title_btn_right_icon_2" format="reference" />
+        <attr name="title_btn_right_text_appearance" format="reference" />
+        <attr name="title_btn_right_text_appearance_2" format="reference" />
+    </declare-styleable>
+
+    <!--手机通讯录-->
+    <declare-styleable name="FancyIndexer">
+        <attr name="widthOffset" format="dimension" />
+        <attr name="minFontSize" format="integer" />
+        <attr name="maxFontSize" format="integer" />
+        <attr name="tipFontSize" format="integer" />
+        <attr name="maxBezierHeight" format="dimension" />
+        <attr name="maxBezierWidth" format="dimension" />
+        <attr name="maxBezierLines" format="integer" />
+        <attr name="additionalTipOffset" format="dimension" />
+        <attr name="fontColor" format="color" />
+        <attr name="tipFontColor" format="color" />
+    </declare-styleable>
+
+    <!-- 圆角图片 -->
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundedImageView">
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+        <attr name="riv_mutate_background" format="boolean" />
+        <attr name="riv_oval" format="boolean" />
+        <attr name="android:scaleType" />
+        <attr name="riv_tile_mode">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_x">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_y">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="border_overlay" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="YxImageLayout">
+        <attr name="adjust_to_image" format="boolean" />
+        <attr name="load_background" format="reference|color" />
+        <attr name="load_style">
+            <enum name="small" value="0" />
+            <enum name="big" value="1" />
+        </attr>
+        <attr name="android:scaleType" />
+        <attr name="img_corner_radius" format="dimension" />
+    </declare-styleable>
+
+
+</resources>
