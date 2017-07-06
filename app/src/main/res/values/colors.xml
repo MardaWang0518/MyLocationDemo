@@ -9,6 +9,7 @@
     <color name="color_gray6">#666666</color>
     <color name="color_gray3">#333333</color>
     <color name="color_gray9">#999999</color>
+    <color name="color_e">#eeeeee</color>
     <color name="color_grayf5">#f5f5f5</color>
     <color name="color_orange">#ff9900</color>
 </resources>

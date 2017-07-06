@@ -1,5 +1,6 @@
 package com.mardawang.android.mylocationdemo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Stroke;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.mardawang.android.mylocationdemo.R;
 import com.mardawang.android.mylocationdemo.util.CalendarUtil;
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout rl_update;
     private LocationAdapter mAdapper;
     private RelativeLayout rl_title;
+    private TextView tv_back;
+    private String cur_location;
+    private TextView tv_title;
+    boolean isUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,20 +69,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rl_title = (RelativeLayout) findViewById(R.id.rl_title);
         rl_signed = (RelativeLayout) findViewById(R.id.rl_signed);
         rl_update = (RelativeLayout) findViewById(R.id.rl_update);
+        tv_back = (TextView) findViewById(R.id.tv_back);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         tv_curlocal = (TextView) findViewById(R.id.tv_curlocal);
         tv_curdate = (TextView) findViewById(R.id.tv_curdate);
         tv_curtime = (TextView) findViewById(R.id.tv_curtime);
         tv_location_update = (TextView) findViewById(R.id.tv_location_update);
 
         tv_location_update.setOnClickListener(this);
-        mMapView.setOnClickListener(this);
+        tv_back.setOnClickListener(this);
         rl_signed.setOnClickListener(this);
         initMap();
     }
 
     private void initMap() {
-        infoUplate(false);
         mBaiduMap = mMapView.getMap();
+        infoUplate(isUpdate);
 
         mBaiduMap.setMyLocationEnabled(true);
         mLocationClient = new LocationClient(getApplicationContext());
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return mOption;
     }
 
+    private String cur_time;
     private BDLocationListener mBDLocationListener = new BDLocationListener() {
 
         private ArrayList<String> list;
@@ -179,8 +188,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 sb.append(location.getDirection());
                 sb.append("\nPoi: ");
 
+
                 tv_curdate.setText(CalendarUtil.getBirth(new Date()));
-                tv_curtime.setText(CalendarUtil.getHourAndMinutes(new Date()));
+                cur_time = CalendarUtil.getHourAndMinutes(new Date());
+                tv_curtime.setText(cur_time);
                 list = new ArrayList();
                 if (location.getPoiList() != null && !location.getPoiList().isEmpty()) {
                     list.clear();
@@ -189,7 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         sb.append(poi.getName() + ";");
                         list.add(poi.getName());
                         if (0 == i) {   //当前位置
-                            tv_curlocal.setText(poi.getName());
+                            cur_location = poi.getName();
+                            tv_curlocal.setText(cur_location);
                         }
                     }
                 }
@@ -260,37 +272,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_back:
+                isUpdate = false;
+                infoUplate(isUpdate);
+                break;
             case R.id.bmapView:
             case R.id.tv_location_update:
                 //地点微调
-                infoUplate(true);
+                isUpdate = true;
+                infoUplate(isUpdate);
                 break;
             case R.id.rl_signed:
-                Toast.makeText(MainActivity.this, "签到", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SignedActivity.class);
+                intent.putExtra(SignedActivity.CUR_LOCAT, cur_location);
+                intent.putExtra(SignedActivity.CUR_TIME, cur_time);
+                startActivity(intent);
                 break;
         }
     }
 
     private void infoUplate(boolean flag) {
+        UiSettings settings = mBaiduMap.getUiSettings();
         if (flag) {//微调页面
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 900);
             mMapView.setLayoutParams(param);
 
+            settings.setAllGesturesEnabled(true);   //开放一切手势功能
+            mMapView.showScaleControl(true);//隐藏地图上的比例尺
+            mMapView.showZoomControls(true);//显示地图上的缩放控件
+
+//            mMapView.setOnClickListener(null);
+
+            tv_title.setText("地点微调");
             rl_signed.setVisibility(View.GONE);
             rl_update.setVisibility(View.GONE);
             tv_curdate.setVisibility(View.GONE);
-            rl_title.setVisibility(View.VISIBLE);
+            tv_back.setVisibility(View.VISIBLE);
             lv_view.setVisibility(View.VISIBLE);
             lv_view.setAdapter(mAdapper);
         } else {//默认页面
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500);
             mMapView.setLayoutParams(param);
 
+            settings.setZoomGesturesEnabled(false);  //禁用手势缩放功能
+            settings.setScrollGesturesEnabled(false);
+            mMapView.showScaleControl(false);//显示地图上的比例尺
+            mMapView.showZoomControls(false);//隐藏地图上的缩放控件
+
+            mMapView.setOnClickListener(this);
+
+            tv_title.setText("签到");
             rl_signed.setVisibility(View.VISIBLE);
             rl_update.setVisibility(View.VISIBLE);
             tv_curdate.setVisibility(View.VISIBLE);
-            rl_title.setVisibility(View.GONE);
+            tv_back.setVisibility(View.GONE);
             lv_view.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        long startTime = 0;
+
+        if(isUpdate){
+            isUpdate = false;
+            infoUplate(isUpdate);
+        }else if (System.currentTimeMillis() - startTime < 2000) {
+            super.onBackPressed();//释放资源，这个也可以直接finish(),但调用父类的释放的更彻底
+        } else {
+            //记录当前时间
+            startTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次Back键退出", Toast.LENGTH_SHORT).show();
         }
     }
 }

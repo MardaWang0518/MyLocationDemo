@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mardawang.android.mylocationdemo.R;
 
@@ -41,12 +42,19 @@ public class LocationAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(mcontext).inflate(R.layout.item_location_nearby, null);
         }
         TextView tv_location = (TextView) convertView.findViewById(R.id.tv_location);
         tv_location.setText(locationlist.get(position));
+
+        tv_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mcontext, locationlist.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
         return convertView;
     }
 }

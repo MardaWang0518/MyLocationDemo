@@ -14,17 +14,27 @@
         android:paddingLeft="15dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="返回"
-            android:gravity="center_vertical"/>
-
-        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="位置微调" />
+            android:textSize="18sp"
+            android:textColor="@color/color_gray6"/>
+
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="返回"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+             />
     </RelativeLayout>
+
+    <View style="@style/base_divider_line" />
 
     <TextView
         android:id="@+id/tv_curdate"
@@ -32,12 +42,10 @@
         android:layout_height="36dp"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_gray9" />
+    <View style="@style/base_divider_line" />
 
     <RelativeLayout
         android:id="@+id/rl_update"
@@ -65,7 +73,7 @@
             android:gravity="center_vertical"
             android:padding="5dp"
             android:text="地点微调"
-            android:textColor="@color/color_gray9"
+            android:textColor="@color/color_orange"
             android:textSize="15sp" />
 
     </RelativeLayout>
