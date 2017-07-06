@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String cur_location;
     private TextView tv_title;
     boolean isUpdate = false;
+    long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,11 +143,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 circleOptions.center(ll);//设置圆心坐标
                 circleOptions.fillColor(0Xaafaa355);//圆的填充颜色
                 circleOptions.fillColor(0Xaafaa355);//圆的填充颜色
-                circleOptions.radius(80);//设置半径
+                circleOptions.radius(70);//设置半径
                 circleOptions.stroke(new Stroke(2, 0xAA00FF00));//设置边框
                 mBaiduMap.addOverlay(circleOptions);
 
-                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll, 17);   //设置地图中心点以及缩放级别
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll, 18);   //设置地图中心点以及缩放级别
                 //MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mBaiduMap.animateMapStatus(u);
             }
@@ -301,8 +303,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mMapView.showScaleControl(true);//隐藏地图上的比例尺
             mMapView.showZoomControls(true);//显示地图上的缩放控件
 
-//            mMapView.setOnClickListener(null);
-
             tv_title.setText("地点微调");
             rl_signed.setVisibility(View.GONE);
             rl_update.setVisibility(View.GONE);
@@ -319,7 +319,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mMapView.showScaleControl(false);//显示地图上的比例尺
             mMapView.showZoomControls(false);//隐藏地图上的缩放控件
 
-            mMapView.setOnClickListener(this);
+            mMapView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "shit", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             tv_title.setText("签到");
             rl_signed.setVisibility(View.VISIBLE);
@@ -331,19 +336,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onBackPressed() {
-        long startTime = 0;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if(isUpdate){
-            isUpdate = false;
-            infoUplate(isUpdate);
-        }else if (System.currentTimeMillis() - startTime < 2000) {
-            super.onBackPressed();//释放资源，这个也可以直接finish(),但调用父类的释放的更彻底
-        } else {
-            //记录当前时间
-            startTime = System.currentTimeMillis();
-            Toast.makeText(this, "再按一次Back键退出", Toast.LENGTH_SHORT).show();
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (isUpdate) {
+                isUpdate = false;
+                infoUplate(isUpdate);
+                return false;
+            }
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 }
 
