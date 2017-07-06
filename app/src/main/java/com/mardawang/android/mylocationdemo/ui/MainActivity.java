@@ -38,6 +38,12 @@ import com.mardawang.android.mylocationdemo.util.CalendarUtil;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Created by mardawang on 2017/7/5.
+ * <p>
+ * wy363681759@163.com
+ */
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     MapView mMapView = null;
     public LocationClient mLocationClient = null;

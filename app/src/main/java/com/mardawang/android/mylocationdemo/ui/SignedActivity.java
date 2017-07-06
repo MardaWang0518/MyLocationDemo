@@ -11,6 +11,8 @@ import com.mardawang.android.mylocationdemo.R;
 
 /**
  * Created by mardawang on 2017/7/6.
+ *
+ * wy363681759@163.com
  */
 
 public class SignedActivity extends AppCompatActivity {

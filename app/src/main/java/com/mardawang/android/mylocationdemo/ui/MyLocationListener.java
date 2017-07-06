@@ -20,6 +20,8 @@ import com.mardawang.android.mylocationdemo.R;
 
 /**
  * Created by mardawang on 2017/7/5.
+ *
+ * wy363681759@163.com
  */
 
 public class MyLocationListener implements BDLocationListener {

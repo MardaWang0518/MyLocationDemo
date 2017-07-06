@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 /**
  * Created by mardawang on 2017/7/5.
+ *
+ * wy363681759@163.com
  */
 
 public class LocationAdapter extends BaseAdapter {
